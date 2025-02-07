@@ -22,7 +22,7 @@ const Login = (props: PropsStack<'Login'>) => {
         flex: 1,
         justifyContent: 'center',
       }}>
-      <IconAPP />
+      <IconAPP style={{flex: 0.5}} />
       <Text
         style={{
           alignSelf: 'center',
@@ -46,8 +46,8 @@ const Login = (props: PropsStack<'Login'>) => {
           control={control}
           rules={{required: 'Campo requerido'}}
           leftComponent={<IconPerson />}
-          autoCapitalize='none'
-          keyboardType='email-address'
+          autoCapitalize="none"
+          keyboardType="email-address"
         />
         <Input
           password

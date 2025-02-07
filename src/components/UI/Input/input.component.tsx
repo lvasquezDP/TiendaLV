@@ -44,7 +44,9 @@ export const Input: FC<PropsInput> = ({
   rules,
   ...props
 }) => {
-  const [isFocused, setIsFocused] = useState(false);
+  const [isFocused, setIsFocused] = useState(
+    (control?._getWatch(name) ?? '') !== '',
+  );
   const [isPasswordVisible, setIsPasswordVisible] = useState(password);
 
   const hasError = name in errors;
@@ -88,6 +90,7 @@ export const Input: FC<PropsInput> = ({
                   onBlur();
                   !value && setIsFocused(false);
                 }}
+                value={value}
                 onChangeText={onChange}
                 secureTextEntry={isPasswordVisible}
               />

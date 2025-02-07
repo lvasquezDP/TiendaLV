@@ -4,7 +4,7 @@ import {onError} from '../utils/onError';
 import { AxiosError, AxiosResponse } from 'axios';
 
 export const useFormulario = (
-  propsMutate?: UseMutationOptions<AxiosResponse, AxiosError, void, unknown>,
+  propsMutate?: UseMutationOptions<AxiosResponse, AxiosError, {[key:string]:any}, unknown>,
   propsForm?: UseFormProps<any, unknown>,
   // mutationFn?: MutationFunction<unknown, unknown>,
 ) => {

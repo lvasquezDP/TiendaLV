@@ -1,7 +1,12 @@
 import React, {FC} from 'react';
 import Svg, {Path, SvgProps} from 'react-native-svg';
 import {Colors} from '../../components/colors';
-import LottieView from 'lottie-react-native';
+import LottieView, {LottieViewProps} from 'lottie-react-native';
+import {ViewProps} from 'react-native';
+
+type CustomLottieProps = Omit<LottieViewProps, 'source'> & {
+  containerProps?: ViewProps;
+};
 
 export const IconPerson: FC<SvgProps> = props => {
   return (
@@ -57,10 +62,21 @@ export const IconLock: FC<SvgProps> = props => {
     </Svg>
   );
 };
-export const IconAPP: FC<SvgProps> = props => {
+export const IconAPP: FC<CustomLottieProps> = props => {
   return (
     <LottieView
+      {...props}
       source={require('./Animation.json')}
+      autoPlay
+      loop
+    />
+  );
+};
+export const IconLoading: FC<CustomLottieProps> = props => {
+  return (
+    <LottieView
+      {...props}
+      source={require('./Loading.json')}
       autoPlay
       loop
       style={{flex: 0.5}}

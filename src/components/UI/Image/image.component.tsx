@@ -1,11 +1,11 @@
 import {
   Image as Imagen,
   StyleSheet,
-  TouchableOpacity,
   ViewStyle,
   ImageStyle,
   StyleProp,
   ImageResizeMode,
+  TouchableHighlight,
 } from 'react-native';
 import React from 'react';
 
@@ -25,7 +25,7 @@ export function Image({
   resizeMode,
 }: IProps) {
   return (
-    <TouchableOpacity
+    <TouchableHighlight
       style={[styles.button, contentContainerStyle]}
       onPress={onPress}>
       <Imagen
@@ -37,7 +37,7 @@ export function Image({
         }}
         resizeMode={resizeMode}
       />
-    </TouchableOpacity>
+    </TouchableHighlight>
   );
 }
 

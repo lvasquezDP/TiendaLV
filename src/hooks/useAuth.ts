@@ -3,14 +3,23 @@ import api from '../lib/api';
 import {PropsStack} from '../routers/Auth';
 import {useFormulario} from './useFormulario';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useContext} from 'react';
+import {AuthContex} from '../context/authContext';
 
 export const useAuth = (props: PropsStack<'Login'>) => {
-  return useFormulario({
-    mutationFn: data => api.post('/auth/login', data),
-    onSuccess: async ({data}) => {
-      Toast.show({text1: 'Bienvenido'});
-      props.navigation.navigate('Home');
-      await AsyncStorage.setItem('token', data.token);
+  const {setUser, dataForm} = useContext(AuthContex);
+  return useFormulario(
+    {
+      mutationFn: data => api.post('/auth/login', data),
+      onSuccess: async ({data}, formData) => {
+        if (formData.save) await AsyncStorage.setItem('login', JSON.stringify(formData));
+        else await AsyncStorage.removeItem('login')
+        setUser(data.user);
+        Toast.show({text1: 'Bienvenido'});
+        props.navigation.replace('Home');
+        await AsyncStorage.setItem('token', data.token);
+      },
     },
-  });
+    {defaultValues: dataForm},
+  );
 };

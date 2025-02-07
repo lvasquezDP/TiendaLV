@@ -2,31 +2,21 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import { Image } from '../UI/Image/image.component';
 import { Text } from '../UI/Text/text.component';
+import { Tienda } from '../../types/user';
 
-interface item {
-  image?: string;
-  avatar?: string;
-  header: string;
-  description: string;
-  inform: {
-    header: string;
-    value: number;
-  }[];
-}
-
-export function CardStore({item}: {item: item}) {
+export function CardStore({item}: {item: Tienda}) {
   return (
     <View style={styles.card}>
-      <Image style={styles.cardImage} />
+      <Image style={styles.cardImage} uri={item.img} />
       <View style={styles.cardBody}>
-        <Text style={styles.textHeader}>{item.header}</Text>
-        <Text style={styles.textDesc}>{item.description}</Text>
+        <Text style={styles.textHeader}>{item.nombre}</Text>
+        <Text style={styles.textDesc}>{item.contacto}</Text>
       </View>
-      <View style={styles.footer}>
+      {/* <View style={styles.footer}>
         {item.inform?.map(x => (
           <Inf key={x.header + x.value} {...x} />
         ))}
-      </View>
+      </View> */}
     </View>
   );
 }

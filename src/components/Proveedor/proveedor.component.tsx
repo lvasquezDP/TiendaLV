@@ -2,30 +2,20 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Image} from '../UI/Image/image.component';
 import {Text} from '../UI/Text/text.component';
+import {Proveedor} from '../../types/user';
 
-interface item {
-  image?: string;
-  avatar?: string;
-  header: string;
-  description: string;
-  inform?: {
-    header: string;
-    value: number;
-  }[];
-}
-
-export function CardProveedor({item}: {item: item}) {
+export function CardProveedor({item}: {item: Proveedor}) {
   return (
     <View style={styles.card}>
-      <Image />
+      <Image uri={item.img} />
       <View style={styles.cardBody}>
-        <Text style={styles.textHeader}>{item.header}</Text>
-        <Text style={styles.textDesc}>{item.description}</Text>
-        <View style={styles.footer}>
+        <Text style={styles.textHeader}>{item.nombre}</Text>
+        <Text style={styles.textDesc}>{item.contacto}</Text>
+        {/* <View style={styles.footer}>
           {item.inform?.map(x => (
             <Inf key={x.header + x.value} {...x} />
           ))}
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -42,13 +32,14 @@ const Inf = ({header, value}: {header: string; value: number}) => {
 const styles = StyleSheet.create({
   card: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     overflow: 'hidden',
     borderRadius: 10,
     paddingVertical: 10,
     justifyContent: 'space-around',
     alignItems: 'center',
     margin: 5,
+    padding:5,
 
     boxShadow: [
       {
@@ -66,7 +57,8 @@ const styles = StyleSheet.create({
     ],
   },
   cardBody: {
-    flex: 0.8,
+    // flex: 0.8,
+    alignItems: 'center',
   },
   footer: {
     flexWrap: 'wrap',
