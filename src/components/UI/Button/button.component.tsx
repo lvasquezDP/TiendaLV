@@ -18,11 +18,11 @@ const styles = StyleSheet.create({
   body: {
     margin: 5,
     backgroundColor: Colors.button,
+    borderColor: Colors.button,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
     borderWidth: 3,
-    borderColor: Colors.button,
     alignItems: 'center',
   },
 });

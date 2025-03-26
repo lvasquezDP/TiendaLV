@@ -10,32 +10,29 @@ import {Home} from '../views/Home';
 import {AuthContex} from '../context/authContext';
 import {Store} from '../views/Store';
 import {Platform} from 'react-native';
+import { createBottomTabNavigator,BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 
-export type RootStackParamList = {
+export type RootTabParamList = {
   Login?: {};
   Home?: {};
   Store?: {};
 };
 
-export type PropsStack<T extends keyof RootStackParamList> =
-  NativeStackScreenProps<RootStackParamList, T>;
+export type PropsTab<T extends keyof RootTabParamList> =
+BottomTabScreenProps<RootTabParamList, T>;
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 const AuthRutes = () => {
   const {user} = useContext(AuthContex);
 
   return (
-    <Stack.Navigator
-      initialRouteName={true ? 'Home' : 'Login'}
+    <Tab.Navigator
+      initialRouteName={false ? 'Home' : 'Login'}
       // initialRouteName={'correo' in user ? 'Home' : 'Login'}
       screenOptions={{
         headerTitleAlign: 'center',
         headerTintColor: Colors.text,
         headerStyle: {backgroundColor: Colors.backgroundColor},
-        statusBarBackgroundColor: 'transparent',
-        statusBarTranslucent: true,
-        statusBarStyle: Platform.OS == 'android' ? 'dark' : undefined,
-        contentStyle: {backgroundColor: Colors.backgroundColor},
       }}
       layout={p => (
         <>
@@ -43,22 +40,22 @@ const AuthRutes = () => {
           <Toast />
         </>
       )}>
-      <Stack.Screen
+      <Tab.Screen
         options={{headerShown: false}}
         name="Login"
         component={Login}
       />
-      <Stack.Screen
+      <Tab.Screen
         options={{headerShown: false}}
         name="Home"
         component={Home}
       />
-      <Stack.Screen
+      <Tab.Screen
         options={{headerTitle: user?.tienda?.nombre ?? ''}}
         name="Store"
         component={Store}
       />
-    </Stack.Navigator>
+    </Tab.Navigator>
   );
 };
 

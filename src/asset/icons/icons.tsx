@@ -83,3 +83,58 @@ export const IconLoading: FC<CustomLottieProps> = props => {
     />
   );
 };
+export const IconSettings: FC<CustomLottieProps> = props => {
+  return (
+    <LottieView
+      {...props}
+      source={require('./Settings.json')}
+      autoPlay
+      loop
+      style={{flex: 1}}
+    />
+  );
+};
+export const IconStore: FC<CustomLottieProps> = props => {
+  return (
+    <LottieView
+      {...props}
+      source={require('./Store.json')}
+      autoPlay
+      loop
+      style={{flex: 1}}
+    />
+  );
+};
+export const IconCart: FC<CustomLottieProps> = props => {
+  return (
+    <LottieView
+      {...props}
+      source={require('./Cart.json')}
+      autoPlay
+      loop
+      style={{flex: 1}}
+    />
+  );
+};
+export const IconInventario: FC<CustomLottieProps> = props => {
+  return (
+    <LottieView
+      {...props}
+      source={require('./Inventario.json')}
+      autoPlay
+      loop
+      style={{flex: 1}}
+    />
+  );
+};
+export const IconPesado: FC<CustomLottieProps> = props => {
+  return (
+    <LottieView
+      {...props}
+      source={require('./Pesado.json')}
+      autoPlay
+      loop
+      style={{flex: 1}}
+    />
+  );
+};

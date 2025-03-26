@@ -1,10 +1,9 @@
 import React, {useContext} from 'react';
-import {KeyboardAvoidingView, Platform, TouchableHighlight} from 'react-native';
-import {Text} from '../components';
-import {IconAPP} from '../asset/icons/icons';
+import {KeyboardAvoidingView, Platform} from 'react-native';
+import {Button, Image, Text} from '../components';
 import {PropsStack} from '../routers/Auth';
 import {AuthContex} from '../context/authContext';
-import Animated from 'react-native-reanimated';
+import {Colors} from '../components/colors';
 
 export const Store = (props: PropsStack<'Store'>) => {
   const {user} = useContext(AuthContex);
@@ -13,21 +12,12 @@ export const Store = (props: PropsStack<'Store'>) => {
       behavior={Platform.OS ? 'height' : 'padding'}
       style={{
         flex: 1,
-        // justifyContent: 'center',
       }}>
-      <TouchableHighlight
-        style={{flex: 1/2}}
-        onPress={() => props.navigation.goBack()}>
-      <Animated.Image
-        style={{flex: 1}}
-        source={{
-          uri:
-          user.tienda.img ??
-          'https://res.cloudinary.com/dxarbtyux/image/upload/v1703315333/color-contrast-inspector/sample-5-avatar.webp',
-        }}
-        />
-        </TouchableHighlight>
-      <IconAPP />
+      <Image
+        onPress={() => props.navigation.goBack()}
+        contentContainerStyle={{minHeight: 300}}
+        uri={user.tienda.img}
+      />
       <Text
         style={{
           alignSelf: 'center',
@@ -37,6 +27,9 @@ export const Store = (props: PropsStack<'Store'>) => {
         }}>
         {user.correo}
       </Text>
+      <Button>
+        <Text style={{color: Colors.text2, fontSize: 20}}>Editar</Text>
+      </Button>
     </KeyboardAvoidingView>
   );
 };
