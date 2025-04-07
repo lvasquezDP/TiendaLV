@@ -4,8 +4,8 @@ import api from '../lib/api';
 import {useMutation} from '@tanstack/react-query';
 import {IconLoading} from '../asset/icons/icons';
 import {View} from 'react-native';
-import {Colors} from '../components/colors';
 import {UserLogin} from '../types/user';
+import { useTheme } from 'styled-components/native';
 
 const InitContex: contex = {
   user: {} as UserLogin,
@@ -23,6 +23,8 @@ export const AuthContext: FC<{children: React.ReactElement}> = ({children}) => {
   const [user, setUser] = useState({} as UserLogin);
   const [dataForm, setDataForm] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const theme = useTheme(); 
+
   const {mutate} = useMutation({
     mutationFn: (token: string) => api.get(`/auth/refresh/${token}`),
     onSuccess: async data => {
@@ -54,7 +56,7 @@ export const AuthContext: FC<{children: React.ReactElement}> = ({children}) => {
     return (
       <View
         style={{
-          backgroundColor: Colors.backgroundColor,
+          backgroundColor: theme.background,
           flex: 1,
           justifyContent: 'center',
         }}>

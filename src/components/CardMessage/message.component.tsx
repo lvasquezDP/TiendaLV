@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {StyleSheet} from 'react-native';
-import Image from '../UI/Image/image.component';
+import { Image } from '../UI/Image/image.component';
 
 export interface MessageInterface {
   emisor: string;

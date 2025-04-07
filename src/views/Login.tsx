@@ -2,9 +2,9 @@ import React from 'react';
 import {KeyboardAvoidingView, Platform, View} from 'react-native';
 import {Button, Check, Input, Text} from '../components';
 import {IconAPP, IconLock, IconPerson} from '../asset/icons/icons';
-import {Colors} from '../components/colors';
 import {useAuth} from '../hooks/useAuth';
 import {PropsStack} from '../routers/Auth';
+import {useTheme} from 'styled-components/native';
 
 const Login = (props: PropsStack<'Login'>) => {
   const {
@@ -15,30 +15,32 @@ const Login = (props: PropsStack<'Login'>) => {
     onSubmit,
   } = useAuth(props);
 
+  const theme = useTheme();
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS ? 'height' : 'padding'}
       style={{
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
       }}>
-      <IconAPP style={{flex: 0.5}} />
-      <Text
-        style={{
-          alignSelf: 'center',
-          fontWeight: 'bold',
-          fontSize: 20,
-          marginVertical: 20,
-        }}>
-        INICIAR SESION
-      </Text>
       <View
         style={{
           paddingHorizontal: 10,
           width: '100%',
-          marginHorizontal: 20,
-          alignSelf: 'center',
         }}>
+        <View style={{height: '40%'}}>
+          <IconAPP style={{flex: 1}} />
+          <Text
+            style={{
+              alignSelf: 'center',
+              fontWeight: 'bold',
+              fontSize: 20,
+            }}>
+            INICIAR SESION
+          </Text>
+        </View>
+
         <Input
           label="CORREO"
           name="correo"
@@ -62,15 +64,21 @@ const Login = (props: PropsStack<'Login'>) => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            marginBottom: 20,
+            marginBottom: 10,
           }}>
           <Check control={control} name="save" />
           <Text style={{fontWeight: 'bold'}}>Recordarme</Text>
         </View>
         <Button onPress={onSubmit}>
-          <Text style={{fontWeight: 'bold', color: Colors.text2}}>Entrar</Text>
+          <Text style={{fontWeight: 'bold', color: theme.textTertiary}}>
+            Entrar
+          </Text>
         </Button>
       </View>
+
+      <Text style={{fontWeight: 'bold', color: theme.primary}}>
+        Terminos y condiciones
+      </Text>
     </KeyboardAvoidingView>
   );
 };

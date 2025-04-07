@@ -1,22 +1,13 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
-import {
-  View,
-  TextInput,
-  StyleProp,
-  ViewStyle,
-  StyleSheet,
-  Animated,
-  TextInputProps,
-} from 'react-native';
+import React, {FC, useState} from 'react';
+import {StyleProp, ViewStyle, TextInputProps} from 'react-native';
 import {IconEye} from '../../../asset/icons/icons';
-import {Colors} from '../../colors';
 import {
   Control,
   Controller,
   FieldValues,
   RegisterOptions,
 } from 'react-hook-form';
-import {Text} from '../Text/text.component';
+import styled from 'styled-components/native';
 
 interface PropsInput extends TextInputProps {
   label: string;
@@ -52,153 +43,99 @@ export const Input: FC<PropsInput> = ({
   const hasError = name in errors;
 
   return (
-    <>
-      <View
-        style={[
-          styles.container,
-          styleContainer,
-          isFocused && styles.focused,
-          hasError && styles.error,
-        ]}>
-        {leftComponent && (
-          <View style={styles.leftComponent}>{leftComponent}</View>
-        )}
+    <Container style={styleContainer}>
+      {leftComponent && (
+        <LeftComponent isFocused={isFocused}>{leftComponent}</LeftComponent>
+      )}
 
-        <View style={{flex: 1}}>
-          <View style={styles.labelContainer}>
-            {label.split('').map((char, index) => (
-              <LabelChar
-                key={index}
-                char={char}
-                isFocused={isFocused}
-                hasError={hasError}
-                delay={index * 50}
-              />
-            ))}
-          </View>
-
-          <Controller
-            control={control}
-            name={name}
-            rules={rules}
-            render={({field: {onChange, onBlur, value}}) => (
-              <TextInput
-                {...props}
-                style={styles.input}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => {
-                  onBlur();
-                  !value && setIsFocused(false);
-                }}
-                value={value}
-                onChangeText={onChange}
-                secureTextEntry={isPasswordVisible}
-              />
-            )}
-          />
-        </View>
-
-        {password && (
-          <IconEye
-            style={styles.eyeIcon}
-            color={isFocused ? Colors.focus : Colors.input}
-            onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+      <Controller
+        control={control}
+        name={name}
+        rules={rules}
+        render={({field: {onChange, onBlur, value}}) => (
+          <TextInput
+            {...props}
+            left={!!leftComponent}
+            isFocused={isFocused}
+            hasError={hasError}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => {
+              onBlur();
+              !value && setIsFocused(false);
+            }}
+            value={value}
+            onChangeText={onChange}
+            secureTextEntry={isPasswordVisible}
           />
         )}
-      </View>
-      <Text style={styles.textError}>
-        {errors[name] && errors[name].message}
-      </Text>
-    </>
+      />
+      <LabelText isFocused={isFocused}>{label}</LabelText>
+      {password && (
+        <Icon
+          isFocused={isFocused}
+          onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+        />
+      )}
+      <ErrorMessage>{errors[name] && errors[name].message}</ErrorMessage>
+    </Container>
   );
 };
 
-const LabelChar = ({
-  char,
-  isFocused,
-  delay,
-  hasError,
-}: {
-  char: string;
+const Container = styled.View`
+  position: relative;
+  display: inherit;
+  margin-vertical: 15px;
+`;
+const TextInput = styled.TextInput<{
   isFocused: boolean;
-  delay: number;
+  left: boolean;
   hasError: boolean;
-}) => {
-  const translateYAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    const animation = Animated.timing(translateYAnim, {
-      toValue: isFocused ? -25 : 0,
-      duration: 200,
-      delay,
-      useNativeDriver: true,
-    });
-    animation.start();
-    return () => animation.stop(); // Limpieza de la animación
-  }, [isFocused, delay]);
-
-  return (
-    <Animated.Text
-      style={[
-        styles.labelChar,
-        {transform: [{translateY: translateYAnim}]},
-        isFocused && styles.labelCharFocused,
-        hasError && styles.labelCharError,
-      ]}>
-      {char}
-    </Animated.Text>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    flexDirection: 'row',
-    marginTop: 15,
-    marginHorizontal: 10,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.input,
-    alignItems: 'flex-end',
-    paddingBottom: 5,
-  },
-  focused: {
-    borderBottomColor: Colors.focus,
-  },
-  error: {
-    borderBottomColor: Colors.error,
-  },
-  leftComponent: {
-    paddingHorizontal: 5,
-  },
-  labelContainer: {
-    position: 'absolute',
-    flexDirection: 'row',
-    bottom: 0,
-  },
-  labelChar: {
-    color: Colors.input,
-    fontWeight: 'bold',
-  },
-  labelCharFocused: {
-    color: Colors.focus,
-  },
-  labelCharError: {
-    color: Colors.error,
-  },
-  textError: {
-    color: Colors.error,
-    marginHorizontal: 10,
-    marginTop: 1,
-    marginBottom: 15,
-  },
-  input: {
-    fontSize: 18,
-    color: Colors.text,
-    padding: 0,
-    paddingHorizontal: 5,
-    margin: 0,
-  },
-  eyeIcon: {
-    marginLeft: 5,
-  },
-});
+}>`
+  color: ${({theme}) => theme.primary};
+  flex-direction: row;
+  border: solid 1.5px
+    ${({theme, isFocused, hasError}) =>
+      isFocused
+        ? theme.textPrimary
+        : hasError
+        ? theme.error
+        : theme.textSecondary};
+  border-radius: 10px;
+  font-size: 1rem;
+  margin-top: 15px;
+  padding-left: ${({left}) => (left ? '40' : '0')}px;
+  padding-vertical: 13px;
+  margin-horizontal: 10px;
+  color: ${({theme}) => theme.textPrimary};
+`;
+const LabelText = styled.Text<{isFocused: boolean}>`
+  position: absolute;
+  left: 20px;
+  top: 7px;
+  transform: ${({isFocused}) => (isFocused ? 'scale(1)' : 'scale(0.8)')};
+  background-color: ${({theme}) => theme.background};
+  color: ${({theme, isFocused}) =>
+    isFocused ? theme.textPrimary : theme.textSecondary};
+`;
+const ErrorMessage = styled.Text`
+  position: absolute;
+  color: ${({theme}) => theme.error};
+  left: 20px;
+  bottom: -20px;
+`;
+const LeftComponent = styled.View<{isFocused: boolean}>`
+  position: absolute;
+  left: 20px;
+  bottom: 10px;
+  aling-self: center;
+  color: ${({theme, isFocused}) =>
+    isFocused ? theme.textPrimary : theme.textSecondary};
+`;
+const Icon = styled(IconEye)<{isFocused: boolean}>`
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  aling-self: center;
+  color: ${({theme, isFocused}) =>
+    isFocused ? theme.textPrimary : theme.textSecondary};
+`;

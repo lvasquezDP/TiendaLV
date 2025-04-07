@@ -1,10 +1,5 @@
-import {
-  StyleSheet,
-  TouchableOpacity,
-  TouchableOpacityProps,
-} from 'react-native';
+import {TouchableOpacityProps} from 'react-native';
 import React, {FC} from 'react';
-import {Colors} from '../../colors';
 import {IconCheck} from '../../../asset/icons/icons';
 import {
   Control,
@@ -12,6 +7,7 @@ import {
   FieldValues,
   RegisterOptions,
 } from 'react-hook-form';
+import styled from 'styled-components/native';
 
 interface props extends TouchableOpacityProps {
   name?: string;
@@ -32,7 +28,6 @@ export const Check: FC<props> = ({control, rules, name = '', ...props}) => {
       render={({field: {onChange, value = false}}) => (
         <TouchableOpacity
           {...props}
-          style={[styles.body, props.style]}
           onPress={e => {
             onChange(!value);
             props.onPress && props.onPress(e);
@@ -45,14 +40,12 @@ export const Check: FC<props> = ({control, rules, name = '', ...props}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  body: {
-    margin: 5,
-    padding: 2,
-    paddingLeft: 1,
-    borderRadius: 5,
-    borderWidth: 3,
-    backgroundColor: Colors.check,
-    borderColor: Colors.checkBorder,
-  },
-});
+const TouchableOpacity = styled.TouchableOpacity`
+  margin: 5px;
+  padding: 2px;
+  padding-left: 1px;
+  border-radius: 8px;
+  border-width: 2px;
+  background-color: ${({theme}) => theme.background};
+  border-color: ${({theme}) => theme.primary};
+`;

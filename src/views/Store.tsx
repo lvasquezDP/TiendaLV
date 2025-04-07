@@ -6,7 +6,6 @@ import {AuthContex} from '../context/authContext';
 import {Colors} from '../components/colors';
 
 export const Store = (props: PropsStack<'Store'>) => {
-  const {user} = useContext(AuthContex);
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS ? 'height' : 'padding'}
@@ -16,7 +15,6 @@ export const Store = (props: PropsStack<'Store'>) => {
       <Image
         onPress={() => props.navigation.goBack()}
         contentContainerStyle={{minHeight: 300}}
-        uri={user.tienda.img}
       />
       <Text
         style={{
@@ -25,7 +23,7 @@ export const Store = (props: PropsStack<'Store'>) => {
           fontSize: 20,
           marginVertical: 20,
         }}>
-        {user.correo}
+        Luis
       </Text>
       <Button>
         <Text style={{color: Colors.text2, fontSize: 20}}>Editar</Text>

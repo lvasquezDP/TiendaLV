@@ -10,10 +10,13 @@ import {Home} from '../views/Home';
 import {AuthContex} from '../context/authContext';
 import {Store} from '../views/Store';
 import {Platform} from 'react-native';
+import TabRutes from './Tab';
+import styled, {useTheme} from 'styled-components/native';
 
 export type RootStackParamList = {
   Login?: {};
   Home?: {};
+  TabRutes?: {};
   Store?: {};
 };
 
@@ -23,19 +26,21 @@ export type PropsStack<T extends keyof RootStackParamList> =
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const AuthRutes = () => {
   const {user} = useContext(AuthContex);
-
+  const theme = useTheme();
   return (
     <Stack.Navigator
-      initialRouteName={true ? 'Home' : 'Login'}
+      initialRouteName={false ? 'TabRutes' : 'Login'}
+      // initialRouteName={true ? 'Home' : 'Login'}
       // initialRouteName={'correo' in user ? 'Home' : 'Login'}
       screenOptions={{
+        headerShown: false,
         headerTitleAlign: 'center',
-        headerTintColor: Colors.text,
-        headerStyle: {backgroundColor: Colors.backgroundColor},
+        headerTintColor: theme.textTertiary,
+        headerStyle: {backgroundColor: theme.primary},
         statusBarBackgroundColor: 'transparent',
         statusBarTranslucent: true,
         statusBarStyle: Platform.OS == 'android' ? 'dark' : undefined,
-        contentStyle: {backgroundColor: Colors.backgroundColor},
+        contentStyle: {backgroundColor: theme.background},
       }}
       layout={p => (
         <>
@@ -43,16 +48,9 @@ const AuthRutes = () => {
           <Toast />
         </>
       )}>
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="Login"
-        component={Login}
-      />
-      <Stack.Screen
-        options={{headerShown: false}}
-        name="Home"
-        component={Home}
-      />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="TabRutes" component={TabRutes} />
+      <Stack.Screen name="Home" component={Home} />
       <Stack.Screen
         options={{headerTitle: user?.tienda?.nombre ?? ''}}
         name="Store"
