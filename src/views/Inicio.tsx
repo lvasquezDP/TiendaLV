@@ -2,12 +2,15 @@ import React from 'react';
 import {View} from 'react-native';
 import {CardProduct} from '../components/Product/product.component';
 import {PropsTab} from '../routers/Tab';
-import {Button, Input} from '../components';
+import {Button, Input, Text} from '../components';
 import Toast from 'react-native-toast-message';
-import { useFormulario } from '../hooks/useFormulario';
-
+import {useFormulario} from '../hooks/useFormulario';
+let render=0;
 export const Inicio = ({navigation}: PropsTab<'Inicio'>) => {
-  const{useForm:{control}}=useFormulario()
+  const {
+    useForm: {control},
+  } = useFormulario();
+  render++;
   return (
     <View style={{justifyContent: 'center', height: '100%'}}>
       <CardProduct
@@ -19,14 +22,15 @@ export const Inicio = ({navigation}: PropsTab<'Inicio'>) => {
           fechaCreacion: new Date(),
         }}
       />
-
+<Text>
+  {render}
+  </Text>
       <Input
-        label="CORREO"
         name="correo"
+        placeholder="Correo"
         errors={{}}
         control={control}
         rules={{required: 'Campo requerido'}}
-        // leftComponent={<IconPerson />}
         autoCapitalize="none"
         keyboardType="email-address"
       />

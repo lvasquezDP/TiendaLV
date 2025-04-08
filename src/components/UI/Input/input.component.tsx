@@ -10,7 +10,7 @@ import {
 import styled from 'styled-components/native';
 
 interface PropsInput extends TextInputProps {
-  label: string;
+  label?: string;
   password?: boolean;
   style?: StyleProp<ViewStyle>;
   styleContainer?: StyleProp<ViewStyle>;
@@ -35,9 +35,7 @@ export const Input: FC<PropsInput> = ({
   rules,
   ...props
 }) => {
-  const [isFocused, setIsFocused] = useState(
-    (control?._getWatch(name) ?? '') !== '',
-  );
+  const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(password);
 
   const hasError = name in errors;
@@ -61,7 +59,7 @@ export const Input: FC<PropsInput> = ({
             onFocus={() => setIsFocused(true)}
             onBlur={() => {
               onBlur();
-              !value && setIsFocused(false);
+              setIsFocused(false);
             }}
             value={value}
             onChangeText={onChange}
@@ -69,7 +67,7 @@ export const Input: FC<PropsInput> = ({
           />
         )}
       />
-      <LabelText isFocused={isFocused}>{label}</LabelText>
+      {label && <LabelText isFocused={isFocused}>{label}</LabelText>}
       {password && (
         <Icon
           isFocused={isFocused}
@@ -95,15 +93,11 @@ const TextInput = styled.TextInput<{
   flex-direction: row;
   border: solid 1.5px
     ${({theme, isFocused, hasError}) =>
-      isFocused
-        ? theme.textPrimary
-        : hasError
-        ? theme.error
-        : theme.textSecondary};
+      isFocused ? theme.focus : hasError ? theme.error : theme.textPrimary};
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 10px;
   margin-top: 15px;
-  padding-left: ${({left}) => (left ? '40' : '0')}px;
+  padding-left: ${({left}) => (left ? '40' : '10')}px;
   padding-vertical: 13px;
   margin-horizontal: 10px;
   color: ${({theme}) => theme.textPrimary};
@@ -114,8 +108,7 @@ const LabelText = styled.Text<{isFocused: boolean}>`
   top: 7px;
   transform: ${({isFocused}) => (isFocused ? 'scale(1)' : 'scale(0.8)')};
   background-color: ${({theme}) => theme.background};
-  color: ${({theme, isFocused}) =>
-    isFocused ? theme.textPrimary : theme.textSecondary};
+  color: ${({theme}) => theme.textPrimary};
 `;
 const ErrorMessage = styled.Text`
   position: absolute;
@@ -129,13 +122,12 @@ const LeftComponent = styled.View<{isFocused: boolean}>`
   bottom: 10px;
   aling-self: center;
   color: ${({theme, isFocused}) =>
-    isFocused ? theme.textPrimary : theme.textSecondary};
+    isFocused ? theme.focus : theme.textPrimary};
 `;
 const Icon = styled(IconEye)<{isFocused: boolean}>`
   position: absolute;
   right: 20px;
   bottom: 10px;
   aling-self: center;
-  color: ${({theme, isFocused}) =>
-    isFocused ? theme.textPrimary : theme.textSecondary};
+  color: ${({theme}) => theme.textPrimary};
 `;

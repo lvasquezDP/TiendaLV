@@ -16,7 +16,7 @@ export const useAuth = (props: PropsStack<'Login'>) => {
         else await AsyncStorage.removeItem('login')
         setUser(data.user);
         Toast.show({text1: 'Bienvenido'});
-        props.navigation.replace('Home');
+        props.navigation.replace('TabRutes');
         await AsyncStorage.setItem('token', data.token);
       },
     },

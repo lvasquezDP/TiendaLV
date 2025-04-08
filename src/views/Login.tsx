@@ -76,7 +76,7 @@ const Login = (props: PropsStack<'Login'>) => {
         </Button>
       </View>
 
-      <Text style={{fontWeight: 'bold', color: theme.primary}}>
+      <Text style={{fontWeight: 'bold', color: theme.tertiary}}>
         Terminos y condiciones
       </Text>
     </KeyboardAvoidingView>

@@ -1,6 +1,4 @@
 import React, {useContext} from 'react';
-import Toast from 'react-native-toast-message';
-import {Home} from '../views/Home';
 import {AuthContex} from '../context/authContext';
 import {Store} from '../views/Store';
 import {
@@ -8,8 +6,8 @@ import {
   BottomTabScreenProps,
 } from '@react-navigation/bottom-tabs';
 import {PropsStack} from './Auth';
-import {Colors} from '../components/colors';
 import {Inicio} from '../views/Inicio';
+import { useTheme } from 'styled-components/native';
 
 export type RootTabParamList = {
   Inicio?: {};
@@ -23,16 +21,16 @@ export type PropsTab<T extends keyof RootTabParamList> = BottomTabScreenProps<
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 const TabRutes = ({navigation}: PropsStack<'TabRutes'>) => {
-  const {user} = useContext(AuthContex);
+  const theme = useTheme();
 
   return (
     <Tab.Navigator
       initialRouteName="Inicio"
       screenOptions={{
-        headerShown: false,
+        // headerShown: false,
         headerTitleAlign: 'center',
-        headerTintColor: Colors.text,
-        // headerStyle: {backgroundColor: 'transparent'},
+        headerTintColor: theme.textTertiary,
+        headerStyle: {backgroundColor: theme.primary},
         sceneStyle: {backgroundColor: 'transparent'},
       }}>
       <Tab.Screen name="Inicio" component={Inicio} />

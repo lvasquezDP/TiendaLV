@@ -29,11 +29,8 @@ const AuthRutes = () => {
   const theme = useTheme();
   return (
     <Stack.Navigator
-      initialRouteName={false ? 'TabRutes' : 'Login'}
-      // initialRouteName={true ? 'Home' : 'Login'}
-      // initialRouteName={'correo' in user ? 'Home' : 'Login'}
+      initialRouteName={'correo' in user ? 'TabRutes' : 'Login'}
       screenOptions={{
-        headerShown: false,
         headerTitleAlign: 'center',
         headerTintColor: theme.textTertiary,
         headerStyle: {backgroundColor: theme.primary},
@@ -48,8 +45,16 @@ const AuthRutes = () => {
           <Toast />
         </>
       )}>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="TabRutes" component={TabRutes} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Login"
+        component={Login}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="TabRutes"
+        component={TabRutes}
+      />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen
         options={{headerTitle: user?.tienda?.nombre ?? ''}}
