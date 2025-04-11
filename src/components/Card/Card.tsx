@@ -12,15 +12,18 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {IconDorw} from '../../asset/icons/icons';
 
 interface PropsText extends ViewProps {
   left?: number;
   right?: number;
   bottom?: number;
+  top?: number;
+  title?: string;
 }
 export const Card: FC<PropsText> = p => {
-  const expandedHeight = 200;
-  const collapsedHeight = 40;
+  const expandedHeight = 215;
+  const collapsedHeight = 45;
   const height = useSharedValue(expandedHeight);
   const translateY = useSharedValue(0);
 
@@ -31,6 +34,7 @@ export const Card: FC<PropsText> = p => {
       duration: 300,
     });
   };
+
   useEffect(() => {
     const keyboardShow = Keyboard.addListener(
       Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
@@ -58,9 +62,16 @@ export const Card: FC<PropsText> = p => {
     transform: [{translateY: translateY.value}],
   }));
   return (
-    <Cardd style={animatedCardStyle}>
-      <TouchableOpacity onPress={toggleCard} style={{alignSelf: 'flex-end'}}>
-        <Text>No. de Productos</Text>
+    <Cardd style={animatedCardStyle} {...p}>
+      <TouchableOpacity
+        onPress={toggleCard}
+        style={{
+          width: '100%',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <Text>{p.title}</Text>
+        <IconDorw style={{marginBottom: 10}} />
       </TouchableOpacity>
       {isExpanded && p.children}
     </Cardd>
@@ -73,10 +84,11 @@ const Cardd = styled(Animated.View)<{
   top?: number;
 }>`
   position: absolute;
+  z-index: 1;
   ${({top}) => top && `top: ${top}px;`}
-  left: ${({left = 10}) => left}px;
-  right: ${({right = 10}) => right}px;
-  bottom: ${({bottom = 10}) => bottom}px;
+  ${({left}) => left && `left: ${left}px;`}
+  ${({right}) => right && `right: ${right}px;`}
+  ${({bottom}) => bottom && `bottom: ${bottom}px;`}
   border-radius: 10px;
   font-size: 10px;
   padding: 10px;

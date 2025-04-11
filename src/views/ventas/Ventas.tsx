@@ -19,17 +19,37 @@ export const Ventas = (props: PropsTab<'Ventas'>) => {
         data={[]}
         renderItem={({item}) => <CardProduct item={item} />}
       />
-      <Card>
+      <Card title="Detalles" bottom={10} left={10} right={10}>
         <Input
           name="codigo"
           placeholder="Codigo"
           errors={{}}
           control={control}
           style={{marginTop: 0, marginHorizontal: 0}}
-          styleContainer={{marginTop: 0}}
+          styleContainer={{marginVertical: 0}}
         />
-        <Text>No. de Productos</Text>
-        <Text>Total</Text>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            borderBottomWidth: 0.5,
+            paddingVertical: 10,
+          }}>
+          <Text>No. de Productos</Text>
+          <Text>00</Text>
+        </View>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            borderBottomWidth: 0.5,
+            paddingVertical: 10,
+          }}>
+          <Text>Total</Text>
+          <Text>$0.00</Text>
+        </View>
 
         <Button onPress={() => Toast.show({text1: 'prueba'})}>
           <Text style={{fontWeight: 'bold', color: theme.textTertiary}}>

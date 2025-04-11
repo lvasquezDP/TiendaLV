@@ -84,12 +84,13 @@ const Container = styled.View`
   display: inherit;
   margin-vertical: 15px;
 `;
-const TextInput = styled.TextInput<{
+const TextInput = styled.TextInput.attrs(({theme}) => ({
+  placeholderTextColor: theme.textSecondary,
+}))<{
   isFocused: boolean;
   left: boolean;
   hasError: boolean;
 }>`
-  color: ${({theme}) => theme.primary};
   flex-direction: row;
   border: solid 1.5px
     ${({theme, isFocused, hasError}) =>
