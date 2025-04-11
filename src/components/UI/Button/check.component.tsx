@@ -46,6 +46,6 @@ const TouchableOpacity = styled.TouchableOpacity`
   padding-left: 1px;
   border-radius: 8px;
   border-width: 2px;
-  background-color: ${({theme}) => theme.background};
+  background-color: transparent;
   border-color: ${({theme}) => theme.primary};
 `;

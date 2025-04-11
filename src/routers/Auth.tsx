@@ -4,9 +4,7 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import Login from '../views/Login';
-import {Colors} from '../components/colors';
 import Toast from 'react-native-toast-message';
-import {Home} from '../views/Home';
 import {AuthContex} from '../context/authContext';
 import {Store} from '../views/Store';
 import {Platform} from 'react-native';
@@ -15,7 +13,6 @@ import styled, {useTheme} from 'styled-components/native';
 
 export type RootStackParamList = {
   Login?: {};
-  Home?: {};
   TabRutes?: {};
   Store?: {};
 };
@@ -29,7 +26,8 @@ const AuthRutes = () => {
   const theme = useTheme();
   return (
     <Stack.Navigator
-      initialRouteName={'correo' in user ? 'TabRutes' : 'Login'}
+      // initialRouteName={'correo' in user ? 'TabRutes' : 'Login'}
+      initialRouteName='TabRutes'
       screenOptions={{
         headerTitleAlign: 'center',
         headerTintColor: theme.textTertiary,
@@ -55,7 +53,6 @@ const AuthRutes = () => {
         name="TabRutes"
         component={TabRutes}
       />
-      <Stack.Screen name="Home" component={Home} />
       <Stack.Screen
         options={{headerTitle: user?.tienda?.nombre ?? ''}}
         name="Store"

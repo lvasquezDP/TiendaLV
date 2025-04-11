@@ -1,9 +1,8 @@
 import React, {FC} from 'react';
 import Svg, {Path, SvgProps} from 'react-native-svg';
-import {Colors} from '../../components/colors';
 import LottieView, {LottieViewProps} from 'lottie-react-native';
 import {ViewProps} from 'react-native';
-import { useTheme } from 'styled-components/native';
+import {useTheme} from 'styled-components/native';
 
 type CustomLottieProps = Omit<LottieViewProps, 'source'> & {
   containerProps?: ViewProps;
@@ -70,12 +69,7 @@ export const IconLock: FC<SvgProps> = props => {
 export const IconAPP: FC<CustomLottieProps> = props => {
   const theme = useTheme();
   return (
-    <LottieView
-      {...props}
-      source={require('./Animation.json')}
-      autoPlay
-      loop
-    />
+    <LottieView {...props} source={require('./Animation.json')} autoPlay loop />
   );
 };
 export const IconLoading: FC<CustomLottieProps> = props => {
@@ -97,8 +91,7 @@ export const IconSettings: FC<CustomLottieProps> = props => {
       {...props}
       source={require('./Settings.json')}
       autoPlay
-      loop
-      style={{flex: 1}}
+      loop={false}
     />
   );
 };
@@ -110,7 +103,6 @@ export const IconStore: FC<CustomLottieProps> = props => {
       source={require('./Store.json')}
       autoPlay
       loop
-      style={{flex: 1}}
     />
   );
 };
@@ -121,8 +113,7 @@ export const IconCart: FC<CustomLottieProps> = props => {
       {...props}
       source={require('./Cart.json')}
       autoPlay
-      loop
-      style={{flex: 1}}
+      loop={false}
     />
   );
 };
@@ -133,8 +124,7 @@ export const IconInventario: FC<CustomLottieProps> = props => {
       {...props}
       source={require('./Inventario.json')}
       autoPlay
-      loop
-      style={{flex: 1}}
+      loop={false}
     />
   );
 };
@@ -146,7 +136,6 @@ export const IconPesado: FC<CustomLottieProps> = props => {
       source={require('./Pesado.json')}
       autoPlay
       loop
-      style={{flex: 1}}
     />
   );
 };
