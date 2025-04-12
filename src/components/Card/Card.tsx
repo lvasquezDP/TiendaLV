@@ -22,7 +22,7 @@ interface PropsText extends ViewProps {
   title?: string;
 }
 export const Card: FC<PropsText> = p => {
-  const expandedHeight = 215;
+  const expandedHeight = 220;
   const collapsedHeight = 45;
   const height = useSharedValue(expandedHeight);
   const translateY = useSharedValue(0);

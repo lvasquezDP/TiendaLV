@@ -5,7 +5,7 @@ import {PropsTab} from '../routers/Tab';
 import {Button, Input, Text} from '../components';
 import Toast from 'react-native-toast-message';
 import {useFormulario} from '../hooks/useFormulario';
-let render=0;
+let render = 0;
 export const Inicio = ({navigation}: PropsTab<'Inicio'>) => {
   const {
     useForm: {control},
@@ -22,9 +22,7 @@ export const Inicio = ({navigation}: PropsTab<'Inicio'>) => {
           fechaCreacion: new Date(),
         }}
       />
-<Text>
-  {render}
-  </Text>
+      <Text>{render}</Text>
       <Input
         name="correo"
         placeholder="Correo"

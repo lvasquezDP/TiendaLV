@@ -1,8 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {KeyboardAvoidingView, Platform} from 'react-native';
 import {Button, Image, Text} from '../components';
 import {PropsStack} from '../routers/Auth';
-import {AuthContex} from '../context/authContext';
 import {Colors} from '../components/colors';
 
 export const Store = (props: PropsStack<'Store'>) => {

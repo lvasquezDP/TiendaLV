@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { PropsTab } from '../../routers/Tab'
+import { PropsStack } from '../../routers/Auth'
 
-export const Ventas = (props: PropsTab<'Ventas'>) => {
+export const HVentas = (props: PropsStack<'HVentas'>) => {
   return (
     <View>
-      <Text>ventas</Text>
+      <Text>Historial</Text>
     </View>
   )
 }
