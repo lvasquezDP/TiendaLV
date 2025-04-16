@@ -11,12 +11,14 @@ import {Platform} from 'react-native';
 import TabRutes from './Tab';
 import styled, {useTheme} from 'styled-components/native';
 import {HVentas} from '../views/ventas/Historial';
+import {NewProduct} from '../views/productos/NewProduct';
 
 export type RootStackParamList = {
   Login?: {};
   TabRutes?: {};
   Store?: {};
   HVentas?: {};
+  NewProduct?: {};
 };
 
 export type PropsStack<T extends keyof RootStackParamList> =
@@ -29,8 +31,8 @@ const AuthRutes = () => {
   const theme = useTheme();
   return (
     <Stack.Navigator
-      // initialRouteName={'correo' in user ? 'TabRutes' : 'Login'}
-      initialRouteName="TabRutes"
+      initialRouteName={'correo' in user ? 'TabRutes' : 'Login'}
+      // initialRouteName="TabRutes"
       screenOptions={{
         headerTitleAlign: 'center',
         headerTintColor: theme.textTertiary,
@@ -61,6 +63,11 @@ const AuthRutes = () => {
           options={{headerTitle: 'Historial'}}
           name="HVentas"
           component={HVentas}
+        />
+        <Stack.Screen
+          options={{headerTitle: 'Nuevo Producto'}}
+          name="NewProduct"
+          component={NewProduct}
         />
       </Stack.Group>
     </Stack.Navigator>

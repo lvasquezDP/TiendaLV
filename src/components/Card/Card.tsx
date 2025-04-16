@@ -73,7 +73,7 @@ export const Card: FC<PropsText> = p => {
         <Text>{p.title}</Text>
         <IconDorw style={{marginBottom: 10}} />
       </TouchableOpacity>
-      {isExpanded && p.children}
+      {p.children}
     </Cardd>
   );
 };
@@ -84,6 +84,7 @@ const Cardd = styled(Animated.View)<{
   top?: number;
 }>`
   position: absolute;
+  overflow: hidden;
   z-index: 1;
   ${({top}) => top && `top: ${top}px;`}
   ${({left}) => left && `left: ${left}px;`}
