@@ -1,18 +1,17 @@
-import React, {useContext} from 'react';
-import {AuthContex} from '../context/authContext';
+import React from 'react';
 import {
   createBottomTabNavigator,
   BottomTabScreenProps,
 } from '@react-navigation/bottom-tabs';
-import {PropsStack, RootStackParamList} from './Auth';
+import {PropsStack} from './Auth';
 import {Inicio} from '../views/Inicio';
 import {useTheme} from 'styled-components/native';
 import {Ventas} from '../views/ventas/Ventas';
 import {IconCart, IconHistory, IconSettings} from '../asset/icons/icons';
-import {useFormulario} from '../hooks/useFormulario';
 import {Productos} from '../views/productos/Productos';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Inventario} from '../views/inventarios/Inventarios';
+import {Store} from '../views/tienda/Store';
+import {TouchableHighlight} from 'react-native';
 
 export type RootTabParamList = {
   Inicio?: {};
@@ -20,6 +19,7 @@ export type RootTabParamList = {
   Inventario?: {};
   Inventarios?: {};
   Productos?: {};
+  Tienda?: {};
 };
 
 export type PropsTab<T extends keyof RootTabParamList> = BottomTabScreenProps<
@@ -64,14 +64,6 @@ const TabRutes = ({navigation}: PropsStack<'TabRutes'>) => {
       />
       <Tab.Screen
         options={{
-          headerRight: () => (
-            <IconHistory
-              onPress={() => navigation?.navigate('HVentas')}
-              style={{
-                marginRight: 15,
-              }}
-            />
-          ),
           headerSearchBarOptions: {},
           tabBarIcon: () => <IconCart style={{height: 45, width: 45}} />,
         }}
@@ -81,10 +73,24 @@ const TabRutes = ({navigation}: PropsStack<'TabRutes'>) => {
       <Tab.Screen
         options={{
           headerTitle: 'Inventarios',
+          headerSearchBarOptions: {},
           tabBarIcon: () => <IconCart style={{height: 45, width: 45}} />,
         }}
         name="Inventario"
         component={Inventario}
+      />
+      <Tab.Screen
+        options={{
+          headerTitle: 'Tienda',
+          headerRight: () => (
+            <TouchableHighlight style={{height: 55, width: 55}}>
+              <IconSettings style={{flex: 1}} />
+            </TouchableHighlight>
+          ),
+          tabBarIcon: () => <IconCart style={{height: 45, width: 45}} />,
+        }}
+        name="Tienda"
+        component={Store}
       />
     </Tab.Navigator>
   );

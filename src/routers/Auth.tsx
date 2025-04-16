@@ -6,7 +6,7 @@ import {
 import Login from '../views/Login';
 import Toast from 'react-native-toast-message';
 import {AuthContex} from '../context/authContext';
-import {Store} from '../views/Store';
+import {Store} from '../views/tienda/Store';
 import {Platform} from 'react-native';
 import TabRutes from './Tab';
 import styled, {useTheme} from 'styled-components/native';
@@ -51,11 +51,6 @@ const AuthRutes = () => {
       <Stack.Group screenOptions={{headerShown: false}}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="TabRutes" component={TabRutes} />
-        <Stack.Screen
-          options={{headerTitle: user?.tienda?.nombre ?? ''}}
-          name="Store"
-          component={Store}
-        />
       </Stack.Group>
 
       <Stack.Group>
