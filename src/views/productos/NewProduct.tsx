@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Input, Text} from '../../components';
+import {Button, Input, Select, Text} from '../../components';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -45,6 +45,20 @@ export const NewProduct = () => {
             errors={errors}
             control={control}
             rules={{required: 'Campo requerido'}}
+          />
+          <Select
+            control={control}
+            name='id_proveedor'
+            label='Proveedor'
+            items={[]}
+            onValueChange={() => console.log('')}
+          />
+          <Select
+            control={control}
+            name='id_categorias'
+            label='Categoria'
+            items={[]}
+            onValueChange={() => console.log('')}
           />
           <Input
             label="Codigo de barras"

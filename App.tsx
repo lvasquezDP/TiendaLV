@@ -5,6 +5,10 @@ import AuthRutes from './src/routers/Auth';
 import {AuthContext} from './src/context/authContext';
 import {ColorsContext} from './src/context/colorsContext';
 
+// const queryClient = new QueryClient({
+//   defaultOptions: { queries: { retry: 2 } },
+// })
+
 function App(): React.JSX.Element {
   const queryClient = new QueryClient();
   return (

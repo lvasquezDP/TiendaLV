@@ -1,18 +1,20 @@
 import {FlatList, View} from 'react-native';
 import React from 'react';
-import {Button, Text} from '../../components';
+import {Button, CardPrecioVenta, Text} from '../../components';
 import {useTheme} from 'styled-components/native';
-import {CardProduct} from '../../components/Product/product.component';
 import {PropsTab} from '../../routers/Tab';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../routers/Auth';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {PrecioVenta} from '../../types/user';
+import {usePagination} from '../../hooks/usePagination';
 
 export const Productos = (p: PropsTab<'Productos'>) => {
-  const theme = useTheme();
-
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const theme = useTheme();
+  const {data, isFetching, status, error} = usePagination<PrecioVenta,'productos'>('/store/product');
   return (
     <View style={{flex: 1}}>
       <Button onPress={() => navigation.navigate('NewProduct')}>
@@ -20,10 +22,19 @@ export const Productos = (p: PropsTab<'Productos'>) => {
           Agregar producto +
         </Text>
       </Button>
-      <FlatList
-        data={[]}
-        renderItem={({item}) => <CardProduct item={item} />}
-      />
+
+      {status === 'pending' ? (
+        <Text>Loading...</Text>
+      ) : status === 'error' ? (
+        <Text>Error: {error.message}</Text>
+      ) : (
+        <FlatList
+          data={data?.productos}
+          renderItem={({item}) => <CardPrecioVenta item={item} />}
+          style={{paddingHorizontal: 4}}
+        />
+      )}
+      {isFetching ? <Text> Loading...</Text> : null}
     </View>
   );
 };

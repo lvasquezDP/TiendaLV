@@ -29,3 +29,25 @@ export interface Proveedor {
     img?:          string;
     fechaCreacion: Date;
 }
+export interface PrecioVenta {
+    id:           number;
+    tiendaId:     number;
+    productoId:   number;
+    precioCompra: number;
+    precioVenta:  number;
+    stock:        number;
+    minStock:     number;
+    producto:     Producto;
+}
+
+export interface Producto {
+    id:            number;
+    codigo:        string;
+    nombre:        string;
+    nombrePublico: string;
+    descripcion:   string;
+    img?:          string;
+    precio:        number;
+    proveedorId:   number;
+    proveedor:     Proveedor;
+}

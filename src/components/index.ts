@@ -1,4 +1,6 @@
 export * from "./Product/product.component";
+export * from "./Product/product.base";
+export * from "./Product/product.component.show";
 export * from "./UI/Button/button.component";
 export * from "./UI/Button/check.component";
 export * from "./UI/Image/image.component";
@@ -10,3 +12,4 @@ export * from "./Card/Card";
 export * from "./Card/Card.base";
 export * from "./Proveedor/proveedor.component";
 export * from "./Store/store.component";
+export * from "./UI/Select/select.component";

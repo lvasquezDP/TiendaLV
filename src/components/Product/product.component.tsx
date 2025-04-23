@@ -1,55 +1,36 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Image} from '../UI/Image/image.component';
 import {Text} from '../UI/Text/text.component';
-import {Tienda} from '../../types/user';
-import { useTheme } from 'styled-components/native';
+import {Producto} from '../../types/user';
+import {CardProductBase} from './product.base';
+import {useTheme} from 'styled-components/native';
 
-export function CardProduct({item}: {item: Tienda}) {
+export function CardProduct({item}: {item: Producto}) {
   const theme = useTheme();
   return (
-    <View style={[styles.card, {backgroundColor: theme.secondary}]}>
-      <Image style={styles.cardImage} uri={item.img} />
-      <View style={styles.cardBody}>
-        <Text style={[styles.textHeader]}>{item.nombre}</Text>
+    <CardProductBase
+      item={item}
+      body={
         <Text style={[styles.textDesc, {color: theme.textSecondary}]}>
-          {item.contacto}
+          {item.descripcion}
         </Text>
-      </View>
-      <View style={styles.stock}>
-        <Text>-</Text>
-        <Text>0</Text>
-        <Text>+</Text>
-      </View>
-    </View>
+      }
+      rigth={
+        <View style={styles.stock}>
+          <Text>-</Text>
+          <Text>0</Text>
+          <Text>+</Text>
+        </View>
+      }
+    />
   );
 }
 const styles = StyleSheet.create({
-  card: {
-    flexDirection: 'row',
-    overflow: 'hidden',
-    borderRadius: 10,
-    padding: 10,
-    margin: 5,
-    gap: 15,
-  },
-  cardBody: {
-    justifyContent: 'center',
-    textAlign: 'center',
-    flex: .6,
-    gap: 15,
-  },
   stock: {
-    flex:.5,
-    alignItems:'center',
+    flex: 0.5,
+    alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-  },
-  cardImage: {
-    borderRadius: 10,
-  },
-  textHeader: {
-    fontWeight: 'bold',
   },
   textDesc: {
     fontWeight: '400',
