@@ -13,15 +13,6 @@ export const Inicio = ({navigation}: PropsTab<'Inicio'>) => {
   render++;
   return (
     <View style={{justifyContent: 'center', height: '100%'}}>
-      <CardProduct
-        item={{
-          id: 0,
-          nombre: 'Tienda ABC',
-          contacto: 'lvasques59@gmail.com',
-          direccion: 'Parque el ocotal #303',
-          fechaCreacion: new Date(),
-        }}
-      />
       <Text>{render}</Text>
       <Input
         name="correo"

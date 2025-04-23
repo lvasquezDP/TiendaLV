@@ -51,3 +51,5 @@ export interface Producto {
     proveedorId:   number;
     proveedor:     Proveedor;
 }
+
+export type venta = PrecioVenta & {cantidad: number};

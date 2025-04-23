@@ -5,7 +5,7 @@ import {ThemeProvider} from 'styled-components/native';
 const InitContex: {[key: string]: string} = {
   primary: ' #233B6E',
   secondary: ' #FFFFFF',
-  tertiary: ' #35B3F1',
+  tertiary: ' #ECECEC',
   background: ' #EFF0F4',
   textPrimary: ' #000000',
   textSecondary: ' #79747E',
@@ -13,7 +13,8 @@ const InitContex: {[key: string]: string} = {
   success: ' #28a745',
   error: ' #cf6679',
   warning: ' #ffc107',
-  info: ' #17a2b8',
+  // info: ' #17a2b8',
+  info: ' #35B3F1',
   border: ' #333333',
   shadow: ' #00000060',
   focus: ' #03dac6',

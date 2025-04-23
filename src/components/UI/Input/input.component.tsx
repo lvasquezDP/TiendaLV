@@ -114,7 +114,7 @@ const LabelText = styled.Text<{isFocused: boolean}>`
 const ErrorMessage = styled.Text`
   position: absolute;
   color: ${({theme}) => theme.error};
-  left: 20px;
+  align-Self: center;
   bottom: -20px;
 `;
 const LeftComponent = styled.View<{isFocused: boolean}>`

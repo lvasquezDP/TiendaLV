@@ -38,6 +38,7 @@ const TabRutes = ({navigation}: PropsStack<'TabRutes'>) => {
         headerTintColor: theme.textTertiary,
         headerStyle: {backgroundColor: theme.primary},
         sceneStyle: {backgroundColor: 'transparent'},
+        // tabBarHideOnKeyboard:true,
       }}>
       <Tab.Screen
         options={{

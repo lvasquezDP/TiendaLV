@@ -87,7 +87,7 @@ const Login = (props: PropsStack<'Login'>) => {
           <Text
             style={{
               fontWeight: 'bold',
-              color: theme.tertiary,
+              color: theme.info,
               marginTop: 20,
               alignSelf: 'center',
             }}>

@@ -35,28 +35,34 @@ export const Card: FC<PropsText> = p => {
     });
   };
 
-  useEffect(() => {
-    const keyboardShow = Keyboard.addListener(
-      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
-      e => {
-        translateY.value = withTiming(-e.endCoordinates.height + 50, {
-          duration: 300,
-        });
-      },
-    );
+  // useEffect(() => {
+  //   const keyboardShow = Keyboard.addListener(
+  //     Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+  //     e => {
+  //       console.log(translateY.value,e.endCoordinates.height);
+        
+  //       // translateY.value = withTiming(-e.endCoordinates.height, {
+  //       //   duration: 300,
+  //       // });
+  //       translateY.value = withTiming(0, {
+  //         duration: 300,
+  //       });
+  //     },
+  //   );
 
-    const keyboardHide = Keyboard.addListener(
-      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
-      () => {
-        translateY.value = withTiming(0, {duration: 300});
-      },
-    );
+  //   const keyboardHide = Keyboard.addListener(
+  //     Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+  //     () => {
+  //       translateY.value = withTiming(0, {duration: 300});
+  //     },
+  //   );
 
-    return () => {
-      keyboardShow.remove();
-      keyboardHide.remove();
-    };
-  }, []);
+  //   return () => {
+  //     keyboardShow.remove();
+  //     keyboardHide.remove();
+  //   };
+  // }, []);
+
   const animatedCardStyle = useAnimatedStyle(() => ({
     height: height.value,
     transform: [{translateY: translateY.value}],
