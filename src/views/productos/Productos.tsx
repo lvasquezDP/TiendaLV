@@ -14,7 +14,10 @@ export const Productos = (p: PropsTab<'Productos'>) => {
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const theme = useTheme();
-  const {data, isFetching, status, error} = usePagination<PrecioVenta,'productos'>('/store/product');
+  const {data, isFetching, status, error} = usePagination<
+    PrecioVenta,
+    'productos'
+  >('/store/product');
   return (
     <View style={{flex: 1}}>
       <Button onPress={() => navigation.navigate('NewProduct')}>
@@ -30,7 +33,14 @@ export const Productos = (p: PropsTab<'Productos'>) => {
       ) : (
         <FlatList
           data={data?.productos}
-          renderItem={({item}) => <CardPrecioVenta item={item} />}
+          renderItem={({item}) => (
+            <CardPrecioVenta
+              item={item}
+              onPress={() => {
+                navigation.navigate('Product', item);
+              }}
+            />
+          )}
           style={{paddingHorizontal: 4}}
         />
       )}

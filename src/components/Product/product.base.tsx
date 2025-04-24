@@ -1,29 +1,29 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Pressable} from 'react-native';
 import {Image} from '../UI/Image/image.component';
 import {Text} from '../UI/Text/text.component';
 import {Producto} from '../../types/user';
 import {useTheme} from 'styled-components/native';
 
-export function CardProductBase({
-  item,
-  rigth,
-  body,
-}: {
+export interface PropsCard {
   item: Producto;
   rigth?: React.ReactElement;
   body?: React.ReactElement;
-}) {
+  onPress?: () => void;
+}
+export function CardProductBase({item, rigth, body, onPress}: PropsCard) {
   const theme = useTheme();
   return (
-    <View style={[styles.card, {backgroundColor: theme.secondary}]}>
+    <Pressable
+      style={[styles.card, {backgroundColor: theme.secondary}]}
+      onPress={onPress}>
       <Image style={styles.cardImage} uri={item.img} />
       <View style={styles.cardBody}>
         <Text style={[styles.textHeader]}>{item.nombrePublico}</Text>
         {body}
       </View>
       {rigth}
-    </View>
+    </Pressable>
   );
 }
 const styles = StyleSheet.create({

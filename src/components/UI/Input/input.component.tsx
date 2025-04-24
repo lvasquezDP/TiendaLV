@@ -38,7 +38,11 @@ export const Input: FC<PropsInput> = ({
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(password);
 
-  const hasError = name in errors;
+  let error = errors;
+  Object.keys(errors).length > 0 &&
+    name.split('.').forEach(x => (error = error[x] ?? {}));
+  const hasError = Object.keys(errors).length > 0;
+  // const hasError = name in errors;
 
   return (
     <Container style={styleContainer}>
@@ -61,7 +65,7 @@ export const Input: FC<PropsInput> = ({
               onBlur();
               setIsFocused(false);
             }}
-            value={value}
+            value={String(value ?? '')}
             onChangeText={onChange}
             secureTextEntry={isPasswordVisible}
           />
@@ -74,7 +78,7 @@ export const Input: FC<PropsInput> = ({
           onPress={() => setIsPasswordVisible(!isPasswordVisible)}
         />
       )}
-      <ErrorMessage>{errors[name] && errors[name].message}</ErrorMessage>
+      <ErrorMessage>{hasError && error.message}</ErrorMessage>
     </Container>
   );
 };
@@ -91,7 +95,6 @@ const TextInput = styled.TextInput.attrs(({theme}) => ({
   left: boolean;
   hasError: boolean;
 }>`
-  flex-direction: row;
   border: solid 1.5px
     ${({theme, isFocused, hasError}) =>
       isFocused ? theme.focus : hasError ? theme.error : theme.textPrimary};
@@ -114,7 +117,7 @@ const LabelText = styled.Text<{isFocused: boolean}>`
 const ErrorMessage = styled.Text`
   position: absolute;
   color: ${({theme}) => theme.error};
-  align-Self: center;
+  align-self: center;
   bottom: -20px;
 `;
 const LeftComponent = styled.View<{isFocused: boolean}>`
