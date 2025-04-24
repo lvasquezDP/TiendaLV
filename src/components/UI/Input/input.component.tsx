@@ -42,6 +42,10 @@ export const Input: FC<PropsInput> = ({
   Object.keys(errors).length > 0 &&
     name.split('.').forEach(x => (error = error[x] ?? {}));
   const hasError = Object.keys(errors).length > 0;
+  // const error = name
+  // .split('.')
+  // .reduce((acc, part) => (acc && acc[part] ? acc[part] : undefined), errors);
+  // const hasError = !!error;
   // const hasError = name in errors;
 
   return (
