@@ -1,5 +1,10 @@
-import React, {FC, useState} from 'react';
-import {StyleProp, ViewStyle, TextInputProps} from 'react-native';
+import React, {FC, forwardRef, LegacyRef, useState} from 'react';
+import {
+  StyleProp,
+  ViewStyle,
+  TextInputProps,
+  TextInput as Textin,
+} from 'react-native';
 import {IconEye} from '../../../asset/icons/icons';
 import {
   Control,
@@ -10,6 +15,7 @@ import {
 import styled from 'styled-components/native';
 
 interface PropsInput extends TextInputProps {
+  ref?: LegacyRef<Textin>;
   label?: string;
   password?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -24,68 +30,81 @@ interface PropsInput extends TextInputProps {
   >;
 }
 
-export const Input: FC<PropsInput> = ({
-  label,
-  password = false,
-  styleContainer,
-  errors = {},
-  name = '',
-  leftComponent,
-  control,
-  rules,
-  ...props
-}) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(password);
+export const Input: FC<PropsInput> = forwardRef(
+  (
+    {
+      label,
+      password = false,
+      styleContainer,
+      errors = {},
+      name = '',
+      leftComponent,
+      control,
+      rules,
+      ...props
+    },
+    ref,
+  ) => {
+    const [isFocused, setIsFocused] = useState(false);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(password);
 
-  let error = errors;
-  Object.keys(errors).length > 0 &&
-    name.split('.').forEach(x => (error = error[x] ?? {}));
-  const hasError = Object.keys(errors).length > 0;
-  // const error = name
-  // .split('.')
-  // .reduce((acc, part) => (acc && acc[part] ? acc[part] : undefined), errors);
-  // const hasError = !!error;
-  // const hasError = name in errors;
+    // let error = errors;
+    // Object.keys(errors).length > 0 &&
+    //   name.split('.').forEach(x => (error = error[x] ?? {}));
+    // const hasError = Object.keys(errors).length > 0;
+    const error = name
+      .split('.')
+      .reduce(
+        (acc, part) => (acc && acc[part] ? acc[part] : undefined),
+        errors,
+      );
+    const hasError = !!error;
+    // const hasError = name in errors;
 
-  return (
-    <Container style={styleContainer}>
-      {leftComponent && (
-        <LeftComponent isFocused={isFocused}>{leftComponent}</LeftComponent>
-      )}
+    return (
+      <Container style={styleContainer}>
+        {leftComponent && (
+          <LeftComponent isFocused={isFocused}>{leftComponent}</LeftComponent>
+        )}
 
-      <Controller
-        control={control}
-        name={name}
-        rules={rules}
-        render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            {...props}
-            left={!!leftComponent}
+        <Controller
+          control={control}
+          name={name}
+          rules={rules}
+          render={({field: {onChange, onBlur, value}}) => (
+            <TextInput
+              ref={ref}
+              {...props}
+              left={!!leftComponent}
+              isFocused={isFocused}
+              hasError={hasError}
+              onFocus={e => {
+                props.onFocus && props.onFocus(e);
+                setIsFocused(true);
+              }}
+              onBlur={e => {
+                onBlur();
+                props.onBlur && props.onBlur(e);
+                setIsFocused(false);
+              }}
+              value={String(value ?? '')}
+              onChangeText={onChange}
+              secureTextEntry={isPasswordVisible}
+            />
+          )}
+        />
+        {label && <LabelText isFocused={isFocused}>{label}</LabelText>}
+        {password && (
+          <Icon
             isFocused={isFocused}
-            hasError={hasError}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => {
-              onBlur();
-              setIsFocused(false);
-            }}
-            value={String(value ?? '')}
-            onChangeText={onChange}
-            secureTextEntry={isPasswordVisible}
+            onPress={() => setIsPasswordVisible(!isPasswordVisible)}
           />
         )}
-      />
-      {label && <LabelText isFocused={isFocused}>{label}</LabelText>}
-      {password && (
-        <Icon
-          isFocused={isFocused}
-          onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-        />
-      )}
-      <ErrorMessage>{hasError && error.message}</ErrorMessage>
-    </Container>
-  );
-};
+        <ErrorMessage>{hasError && error.message}</ErrorMessage>
+      </Container>
+    );
+  },
+);
 
 const Container = styled.View`
   position: relative;
