@@ -16,8 +16,6 @@ export const CardBase: FC<PropsText> = p => {
 const Card = styled.View`
   overflow: hidden;
   border-radius: 10px;
-  font-size: 10px;
   padding: 10px;
   background: ${({theme}) => theme.secondary};
-  color: ${({theme}) => theme.primary};
 `;

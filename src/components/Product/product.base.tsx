@@ -4,6 +4,7 @@ import {Image} from '../UI/Image/image.component';
 import {Text} from '../UI/Text/text.component';
 import {Producto} from '../../types/user';
 import {useTheme} from 'styled-components/native';
+import {CardBase} from '../Card/Card.base';
 
 export interface PropsCard {
   item: Producto;
@@ -14,24 +15,21 @@ export interface PropsCard {
 export function CardProductBase({item, rigth, body, onPress}: PropsCard) {
   const theme = useTheme();
   return (
-    <Pressable
-      style={[styles.card, {backgroundColor: theme.secondary}]}
-      onPress={onPress}>
-      <Image style={styles.cardImage} uri={item.img} />
-      <View style={styles.cardBody}>
-        <Text style={[styles.textHeader]}>{item.nombrePublico}</Text>
-        {body}
-      </View>
-      {rigth}
+    <Pressable onPress={onPress}>
+      <CardBase style={styles.card}>
+        <Image style={styles.cardImage} uri={item.img} />
+        <View style={styles.cardBody}>
+          <Text style={[styles.textHeader]}>{item.nombrePublico}</Text>
+          {body}
+        </View>
+        {rigth}
+      </CardBase>
     </Pressable>
   );
 }
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    overflow: 'hidden',
-    borderRadius: 10,
-    padding: 10,
     margin: 5,
     gap: 15,
   },

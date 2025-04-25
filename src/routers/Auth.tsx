@@ -12,7 +12,8 @@ import TabRutes from './Tab';
 import styled, {useTheme} from 'styled-components/native';
 import {HVentas} from '../views/ventas/Historial';
 import {NewProduct} from '../views/productos/NewProduct';
-import { PrecioVenta } from '../types/user';
+import { PrecioVenta, Tienda } from '../types/user';
+import { EditStore } from '../views/tienda/EditStore';
 
 export type RootStackParamList = {
   Login?: {};
@@ -21,6 +22,7 @@ export type RootStackParamList = {
   HVentas?: {};
   NewProduct?: {};
   Product: PrecioVenta;
+  EditStore: Tienda;
 };
 
 export type PropsStack<T extends keyof RootStackParamList> =
@@ -70,6 +72,11 @@ const AuthRutes = () => {
           options={{headerTitle: 'Producto'}}
           name="Product"
           component={NewProduct}
+        />
+        <Stack.Screen
+          options={{headerTitle: 'Editar Tienda'}}
+          name="EditStore"
+          component={EditStore}
         />
       </Stack.Group>
     </Stack.Navigator>
