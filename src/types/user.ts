@@ -6,8 +6,8 @@ export interface User {
     nombre:        string;
     correo:        string;
     correoValido:  boolean;
-    rol:           string;
-    img:           null;
+    rol:           'ROOT'|'ADMINISTRADOR'|'TRABAJADOR';
+    img?:          string;
     tiendaId:      number;
     fechaCreacion: Date;
 }
