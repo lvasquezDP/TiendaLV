@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {Button, CardBase, Input, Select, Text} from '../../components';
+import {Button, CardBase, Image, Input, Select, Text} from '../../components';
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -11,52 +11,88 @@ import {useTheme} from 'styled-components/native';
 import {useFormulario} from '../../hooks/useFormulario';
 import {PropsStack} from '../../routers/Auth';
 import {debounce} from 'lodash';
-import {useMutation} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import api from '../../lib/api';
-import {Producto} from '../../types/user';
+import {Producto, Proveedor} from '../../types/user';
+import ImagePicker from '../../utils/imagePicker';
+import formdata from '../../utils/formdata';
 
 export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [sumitEdit, setSumitEdit] = useState(true);
   const [data, setData] = useState<Producto[]>([]);
+  const theme = useTheme();
+  const queryClient = useQueryClient();
+
   const {
     useForm: {
       control,
       formState: {errors},
       setValue,
+      getValues,
+      watch,
     },
     onSubmit,
   } = useFormulario(
     {
       mutationFn: data => {
-        ['precioCompra', 'precioVenta', 'stock', 'minStock'].forEach(
-          x => (data[x] = Number(data[x])),
-        );
-        return new Promise(() => {});
+        if (!!data.productoId) delete data.producto;
+        else data.producto.precio = data.precioCompra;
+        console.log(data);
+
+        return api.post(`/store/product/register`, formdata(data), {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      },
+      onSuccess(data) {
+        // queryClient.invalidateQueries({ queryKey: ["'/store/product'"] });
+        queryClient.fetchQuery({queryKey: ['/store/product']});
+        p.navigation.goBack();
       },
     },
     {defaultValues: p.route.params},
   );
-  const theme = useTheme();
+
   const {mutate} = useMutation({
     mutationFn: c => api.get(`/product/find/5/${c}`),
     onSuccess: ({data}) => {
       if (data.productos) {
-        if (sumitEdit && data.productos.length > 0) {
-          setData(data.productos);
-          setDropdownVisible(true);
-        } else if (!sumitEdit && data.productos.length == 1) {
-          console.log(data.productos);
+        if (sumitEdit) {
+          if (data.productos.length > 0) setData(data.productos);
+          setDropdownVisible(data.productos.length > 0);
+        } else if (data.productos.length == 1) {
           setValue('producto', data.productos[0]);
+          setValue('productoId', data.productos[0].id);
         }
       }
     },
   });
+
+  const {data: dataP, status} = useQuery({
+    queryKey: ['/proveedor/'],
+    queryFn: () => api.get('/proveedor/'),
+    select: data => {
+      return data.data?.data?.map((x: Proveedor) => ({
+        label: x.nombre,
+        value: x.id,
+        // key: String(x.id),
+      }));
+    },
+  });
+
   const handler = useCallback(
     debounce(e => mutate(e.target.value), 800),
     [],
   );
 
+  const selectImage = async () => {
+    const {assets} = await ImagePicker.launchImageLibrary({mediaType: 'photo'});
+    if (assets) setValue('img', assets[0]);
+  };
+
+  const edit = !getValues('producto.id');
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -72,11 +108,11 @@ export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
         <Input
           label="Codigo de barras"
           name="producto.codigo"
+          // editable={edit}
           errors={errors}
           control={control}
-          // onSubmitEditing={()=>}<--- no mostrar sugerencias y si se encontro almenos una agregarla directamente
+          onFocus={() => setSumitEdit(true)}
           onSubmitEditing={() => {
-            // sumitEdit = false;
             setSumitEdit(false);
           }}
           rules={{
@@ -99,7 +135,11 @@ export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
                 scrollEnabled={false}
                 data={data}
                 renderItem={({item}) => (
-                  <Button onPress={() => setDropdownVisible(false)}>
+                  <Button
+                    onPress={() => {
+                      setDropdownVisible(false);
+                      setValue('producto', item);
+                    }}>
                     <Text>
                       {item.nombre} - {item.proveedor.nombre}
                     </Text>
@@ -112,6 +152,7 @@ export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
         <Input
           label="Nombre del Producto"
           name="producto.nombre"
+          editable={edit}
           errors={errors}
           control={control}
           rules={{required: 'Campo requerido'}}
@@ -119,24 +160,30 @@ export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
         <Input
           label="Nombre Comercial"
           name="producto.nombrePublico"
+          editable={edit}
           errors={errors}
           control={control}
           rules={{required: 'Campo requerido'}}
         />
-        <Select
-          control={control}
-          name="id_proveedor"
-          label="Proveedor"
-          items={[]}
-          onValueChange={() => console.log('')}
-        />
-        <Select
+        {status == 'success' && (
+          <Select
+            control={control}
+            name="producto.proveedorId"
+            label="Proveedor"
+            items={dataP}
+            errors={errors}
+            disabled={!edit}
+            onValueChange={() => console.log('')}
+            rules={{required: 'Campo requerido'}}
+          />
+        )}
+        {/* <Select
           control={control}
           name="id_categorias"
           label="Categoria"
           items={[]}
           onValueChange={() => console.log('')}
-        />
+        /> */}
         <View style={{flexDirection: 'row', width: '100%'}}>
           <Input
             label="Costo"
@@ -194,17 +241,24 @@ export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
             }}
           />
         </View>
-
-        <Button style={{marginTop: 15}}>
-          <Text style={{fontWeight: 'bold', color: theme.textTertiary}}>
-            Imagen
-          </Text>
-        </Button>
+        {typeof watch('producto.img') == 'undefined' &&
+        typeof watch('img') == 'undefined' ? (
+          <Button style={{marginTop: 15}} onPress={selectImage}>
+            <Text style={{fontWeight: 'bold', color: theme.textTertiary}}>
+              Imagen
+            </Text>
+          </Button>
+        ) : typeof watch('producto.img') == 'string' ? (
+          <Image uri={getValues('producto.img')} />
+        ) : (
+          <Image uri={getValues('img.uri')} />
+        )}
         <Input
           multiline={true}
           numberOfLines={4}
           label="Descripción"
           name="producto.descripcion"
+          editable={edit}
           errors={errors}
           control={control}
           rules={{required: 'Campo requerido'}}

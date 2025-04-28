@@ -13,6 +13,7 @@ import {
   RegisterOptions,
 } from 'react-hook-form';
 import styled from 'styled-components/native';
+import {get} from 'lodash';
 
 interface PropsInput extends TextInputProps {
   ref?: LegacyRef<Textin>;
@@ -48,18 +49,8 @@ export const Input: FC<PropsInput> = forwardRef(
     const [isFocused, setIsFocused] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(password);
 
-    // let error = errors;
-    // Object.keys(errors).length > 0 &&
-    //   name.split('.').forEach(x => (error = error[x] ?? {}));
-    // const hasError = Object.keys(errors).length > 0;
-    const error = name
-      .split('.')
-      .reduce(
-        (acc, part) => (acc && acc[part] ? acc[part] : undefined),
-        errors,
-      );
+    const error = get(errors, name);
     const hasError = !!error;
-    // const hasError = name in errors;
 
     return (
       <Container style={styleContainer}>
@@ -93,7 +84,7 @@ export const Input: FC<PropsInput> = forwardRef(
             />
           )}
         />
-        {label && <LabelText isFocused={isFocused}>{label}</LabelText>}
+        {label && <LabelText isFocused={isFocused}>{label}{rules?.required&&' * '}</LabelText>}
         {password && (
           <Icon
             isFocused={isFocused}
@@ -120,8 +111,10 @@ const TextInput = styled.TextInput.attrs(({theme}) => ({
 }>`
   border: solid 1.5px
     ${({theme, isFocused, hasError}) =>
-      isFocused ? theme.focus : hasError ? theme.error : theme.textPrimary};
+      isFocused ? theme.focus : hasError ? theme.error : theme.border};
   border-radius: 10px;
+  ${({editable, theme}) =>
+    editable !== false ? '' : `backgroundColor:${theme.shadow};`}
   font-size: 10px;
   margin-top: 15px;
   padding-left: ${({left}) => (left ? '40' : '10')}px;

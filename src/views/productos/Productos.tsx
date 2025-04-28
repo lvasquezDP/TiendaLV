@@ -1,5 +1,5 @@
 import {FlatList, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {Button, CardPrecioVenta, Text} from '../../components';
 import {useTheme} from 'styled-components/native';
 import {PropsTab} from '../../routers/Tab';
@@ -8,11 +8,13 @@ import {RootStackParamList} from '../../routers/Auth';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {PrecioVenta} from '../../types/user';
 import {usePagination} from '../../hooks/usePagination';
+import {AuthContex} from '../../context/authContext';
 
 export const Productos = (p: PropsTab<'Productos'>) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
+  const {user} = useContext(AuthContex);
   const theme = useTheme();
   const {data, isFetching, status, error} = usePagination<
     PrecioVenta,
@@ -20,7 +22,10 @@ export const Productos = (p: PropsTab<'Productos'>) => {
   >('/store/product');
   return (
     <View style={{flex: 1}}>
-      <Button onPress={() => navigation.navigate('NewProduct')}>
+      <Button
+        onPress={() =>
+          navigation.navigate('NewProduct', {tiendaId: user.tiendaId})
+        }>
         <Text style={{color: theme.textTertiary, fontWeight: 'bold'}}>
           Agregar producto +
         </Text>

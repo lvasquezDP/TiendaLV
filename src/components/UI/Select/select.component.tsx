@@ -9,6 +9,7 @@ import {
   FieldValues,
   RegisterOptions,
 } from 'react-hook-form';
+import {get} from 'lodash';
 
 interface PropsSelect extends PickerSelectProps {
   label?: string;
@@ -31,7 +32,8 @@ export const Select: FC<PropsSelect> = ({
   styleContainer,
   ...p
 }) => {
-  const hasError = name in errors;
+  const error = get(errors, name);
+  const hasError = !!error;
   return (
     <Container style={styleContainer}>
       <Controller
@@ -48,7 +50,8 @@ export const Select: FC<PropsSelect> = ({
         )}
       />
 
-      {label && <LabelText isFocused={false}>{label}</LabelText>}
+      {label && <LabelText isFocused={false}>{label}{rules?.required&&' * '}</LabelText>}
+      <ErrorMessage>{hasError && error.message}</ErrorMessage>
     </Container>
   );
 };
@@ -58,7 +61,7 @@ const Container = styled.View`
   display: inherit;
   margin-vertical: 15px;
 `;
-const SelectInput = styled(RNPickerSelect).attrs(({})=>({}))<{
+const SelectInput = styled(RNPickerSelect).attrs(({}) => ({}))<{
   hasError: boolean;
 }>`
   border: solid 1.5px
@@ -78,4 +81,12 @@ const LabelText = styled.Text<{isFocused: boolean}>`
   transform: ${({isFocused}) => (isFocused ? 'scale(1)' : 'scale(0.8)')};
   background-color: ${({theme}) => theme.background};
   color: ${({theme}) => theme.textPrimary};
+`;
+
+const ErrorMessage = styled.Text`
+  position: absolute;
+  color: ${({theme}) => theme.error};
+  align-self: center;
+  bottom: -20px;
+
 `;

@@ -84,7 +84,9 @@ const TabRutes = ({navigation}: PropsStack<'TabRutes'>) => {
         options={{
           headerTitle: 'Tienda',
           headerRight: () => (
-            <TouchableHighlight style={{height: 55, width: 55}}>
+            <TouchableHighlight
+              style={{height: 55, width: 55}}
+              onPress={() => navigation.navigate('Config')}>
               <IconSettings style={{flex: 1}} />
             </TouchableHighlight>
           ),
