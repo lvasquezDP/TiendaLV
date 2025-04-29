@@ -16,6 +16,7 @@ import api from '../../lib/api';
 import {Producto, Proveedor} from '../../types/user';
 import ImagePicker from '../../utils/imagePicker';
 import formdata from '../../utils/formdata';
+import Toast from 'react-native-toast-message';
 
 export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -47,9 +48,14 @@ export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
         });
       },
       onSuccess(data) {
-        // queryClient.invalidateQueries({ queryKey: ["'/store/product'"] });
-        queryClient.fetchQuery({queryKey: ['/store/product']});
+        Toast.show({
+          text1: `Producto ${
+            Object.keys(p.route.params).length > 1 ? 'guardado' : ' registrado'
+          } exitosamente`,
+        });
+        queryClient.invalidateQueries({ queryKey: ["/store/product"] });
         p.navigation.goBack();
+
       },
     },
     {defaultValues: p.route.params},
