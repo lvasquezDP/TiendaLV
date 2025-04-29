@@ -39,7 +39,6 @@ export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
       mutationFn: data => {
         if (!!data.productoId) delete data.producto;
         else data.producto.precio = data.precioCompra;
-        console.log(data);
 
         return api.post(`/store/product/register`, formdata(data), {
           headers: {
@@ -179,7 +178,6 @@ export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
             items={dataP}
             errors={errors}
             disabled={!edit}
-            onValueChange={() => console.log('')}
             rules={{required: 'Campo requerido'}}
           />
         )}
@@ -188,7 +186,6 @@ export const NewProduct = (p: PropsStack<'NewProduct' | 'Product'>) => {
           name="id_categorias"
           label="Categoria"
           items={[]}
-          onValueChange={() => console.log('')}
         /> */}
         <View style={{flexDirection: 'row', width: '100%'}}>
           <Input

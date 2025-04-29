@@ -11,7 +11,7 @@ import {
 } from 'react-hook-form';
 import {get} from 'lodash';
 
-interface PropsSelect extends PickerSelectProps {
+interface PropsSelect extends Omit<PickerSelectProps, 'onValueChange'> {
   label?: string;
   styleContainer?: StyleProp<ViewStyle>;
   name?: string;
@@ -50,7 +50,12 @@ export const Select: FC<PropsSelect> = ({
         )}
       />
 
-      {label && <LabelText isFocused={false}>{label}{rules?.required&&' * '}</LabelText>}
+      {label && (
+        <LabelText isFocused={false}>
+          {label}
+          {rules?.required && ' * '}
+        </LabelText>
+      )}
       <ErrorMessage>{hasError && error.message}</ErrorMessage>
     </Container>
   );
@@ -88,5 +93,4 @@ const ErrorMessage = styled.Text`
   color: ${({theme}) => theme.error};
   align-self: center;
   bottom: -20px;
-
 `;
